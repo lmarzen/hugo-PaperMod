@@ -384,6 +384,7 @@ h6:hover .anchor {
 .paginav .prev,
 .paginav .next {
     width: 50%;
+    padding-bottom: 8px;
 }
 
 .paginav span:hover:not(.title) {
