@@ -58,7 +58,7 @@
 {{- /* order is important */}}
 {{- $core := (slice $theme_vars $reset $common $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
 
-{{- $isChromaDisabled := (site.Params.disableChroma | default true) }}
+{{- $isChromaDisabled := (site.Params.assets.disableChroma | default true) }}
 {{- $chroma := (cond ($isChromaDisabled) (" " | resources.FromString "assets/css/chroma-blank.css") ((resources.Match "css/chroma/*.css") | resources.Concat "assets/css/chroma.css" | resources.Minify)) }}
 
 {{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" | resources.Minify }}
