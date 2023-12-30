@@ -91,9 +91,9 @@
 
 .dark .post-content a {
     /* color: #2f81f7; /* Github Dark */
-    color: #58a6ff; /* old Github Dark*/
+    /* color: #58a6ff; /* old Github Dark*/
     /* color: #8ab4f8; /* Google Dark */
-    /* color: #00ddff; /* Firefox Dark */
+    color: #00ddff; /* Firefox Dark */
     /* color: #8a6eff; /* Proton Dark */
     /* color: #4fbcff; /* Reddit Dark */
 }
