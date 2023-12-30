@@ -84,7 +84,8 @@
 .post-content a {
     text-decoration: none;
     /* color: #0969da; /* Github Light */
-    color: #0060df; /* Firefox Light */
+    color: #06f; /* Google Light */
+    /*color: #0060df; /* Firefox Light */
     /* color: #3366cc; /* Wikipedia */
     /* color: #7c5cff; /* Proton Light */
 }
