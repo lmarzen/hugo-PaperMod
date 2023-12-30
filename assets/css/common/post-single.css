@@ -69,7 +69,39 @@
     font-size: 12px;
 }
 
-.post-content a,
+.post-content a.footnote-ref::before {
+    content: '[';
+}
+
+.post-content a.footnote-ref::after {
+    content: ']';
+}
+
+.post-content a.footnote-ref {
+    box-shadow: none;
+}
+
+.post-content a {
+    text-decoration: none;
+    /* color: #0969da; /* Github Light */
+    color: #0060df; /* Firefox Light */
+    /* color: #3366cc; /* Wikipedia */
+    /* color: #7c5cff; /* Proton Light */
+}
+
+.dark .post-content a {
+    /* color: #2f81f7; /* Github Dark */
+    color: #58a6ff; /* old Github Dark*/
+    /* color: #8ab4f8; /* Google Dark */
+    /* color: #00ddff; /* Firefox Dark */
+    /* color: #8a6eff; /* Proton Dark */
+    /* color: #4FBCFF; /* Reddit Dark */
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+}
+
 .toc a:hover {
     box-shadow: 0 1px 0;
     box-decoration-break: clone;
