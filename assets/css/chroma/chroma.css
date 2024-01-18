@@ -7,12 +7,13 @@
     color: unset
 }
 
+/* Fix for line numbers and line highlight */
 .chroma .hl {
     display: flex;
 }
 
 .chroma .lnt {
-    padding: 0 0 0 12px;
+    padding: 0 0 0 12px !important;
 }
 
 .highlight pre.chroma code {
