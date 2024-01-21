@@ -52,8 +52,8 @@ pre {
     position: absolute;
     top: 4px;
     right: 4px;
-    color: rgba(255, 255, 255, 0.8);
-    background: rgba(78, 78, 78, 0.8);
+    color: rgba(0, 0, 0, 0.8);
+    background: rgba(212, 212, 212, 0.8);
     border-radius: var(--radius);
     padding-left: 5px;
     padding-right: 5px;
@@ -62,6 +62,11 @@ pre {
     font-family: var(--font-family);
     font-size: 14px;
     user-select: none;
+}
+
+.dark .copy-code {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
 }
 
 div.highlight:hover .copy-code,
