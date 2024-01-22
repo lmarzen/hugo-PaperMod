@@ -69,14 +69,6 @@
     font-size: 12px;
 }
 
-.post-content a.footnote-ref::before {
-    content: '[';
-}
-
-.post-content a.footnote-ref::after {
-    content: ']';
-}
-
 .post-content a.footnote-ref {
     box-shadow: none;
 }
