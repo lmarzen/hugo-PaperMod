@@ -1,30 +1,55 @@
 {{- with .cxt}} {{/* Apply proper context from dict */}}
 {{- if (and .Params.cover.image (not $.isHidden)) }}
+
+{{- $respSizes := (.Params.responsiveImages.setSizes | default site.Params.responsiveImages.setSizes) | default (slice "360" "540" "720" "1080" "1440") -}}
+{{- $dataSizes := "(min-width: 768px) 720px, 100vw" -}}
+{{- /* ^^ applicable only to webp: https://gohugo.io/content-management/image-processing/#hint */ -}}
+{{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "tiff" "bmp" "gif") -}}
+{{- if hugo.IsExtended -}}
+    {{- $processableFormats = $processableFormats | append "webp" -}}
+{{- end -}}
+{{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default false }}
+{{- $filter := (.Params.cover.resampleFilter | default site.Params.cover.resampleFilter) }}
+{{- $hint := (.Params.cover.hint | default site.Params.cover.hint) }}
+{{- $userQuality := (.Params.cover.quality | default site.Params.cover.quality) }}
+{{- $quality := cond (ne $userQuality nil) (printf "q%s" $userQuality) "" }}
+{{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+
 {{- $alt := (.Params.cover.alt | default .Params.cover.caption | plainify) }}
 {{- $loading := cond $.IsSingle "eager" "lazy" }}
 <figure class="entry-cover">
-    {{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default true }}
     {{- $addLink := (and site.Params.cover.linkFullImages $.IsSingle) }}
     {{- $pageBundleCover     := (.Resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
     {{- $globalResourcesCover := (resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
     {{- $cover := (or $pageBundleCover $globalResourcesCover)}}
     {{- if $cover -}}{{/* i.e it is present in page bundle */}}
-        {{- if $addLink }}<a href="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" target="_blank"
-            rel="noopener noreferrer">{{ end -}}
-        {{- $sizes := (slice "360" "480" "720" "1080" "1500") }}
-        {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif") -}}
-        {{- if hugo.IsExtended -}}
-            {{- $processableFormats = $processableFormats | append "webp" -}}
-        {{- end -}}
-        {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+    {{- if $addLink }}<a href="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" target="_blank"
+        rel="noopener noreferrer">
+    {{ end -}}
+    <picture>
         {{- if (and (in $processableFormats $cover.MediaType.SubType) ($responsiveImages) (eq $prod true)) }}
-        <img loading="{{$loading}}" srcset="{{- range $size := $sizes -}}
-                        {{- if (ge $cover.Width $size) -}}
-                        {{ printf "%s %s" (($cover.Resize (printf "%sx" $size)).Permalink) (printf "%sw ," $size) -}}
-                        {{ end }}
-                    {{- end -}}{{$cover.Permalink }} {{printf "%dw" ($cover.Width)}}" 
-            sizes="(min-width: 768px) 720px, 100vw" src="{{ $cover.Permalink }}" alt="{{ $alt }}" 
-            width="{{ $cover.Width }}" height="{{ $cover.Height }}">
+        {{- if hugo.IsExtended -}}
+        <source type="image/webp" srcset="
+        {{- with $respSizes -}}
+            {{- range $i, $e := . -}}
+                {{- if ge $cover.Width . -}}
+                    {{- if $i }}, {{ end -}}{{- ($cover.Resize (print . "x webp " $hint " " $filter " " $quality) ).RelPermalink }} {{ . }}w
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}" sizes="{{ $dataSizes }}" />
+        {{- end -}}
+        <source type="image/jpeg" srcset="
+        {{- with $respSizes -}}
+            {{- range $i, $e := . -}}
+                {{- if ge $cover.Width . -}}
+                    {{- if $i }}, {{ end -}}{{- ($cover.Resize (print . "x jpg " $filter " " $quality) ).RelPermalink }} {{ . }}w
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}" sizes="{{ $dataSizes }}" />
+        {{- $actualImg := $cover.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
+        <img loading="lazy" src="{{ $actualImg.RelPermalink }}" alt="{{ $alt }}"
+            width="{{ $cover.Width }}" height="{{ $cover.Height }}"
+        /> <!-- Closing img tag -->
         {{- else }}{{/* Unprocessable image or responsive images disabled */}}
         <img loading="{{$loading}}" src="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" alt="{{ $alt }}">
         {{- end }}
@@ -33,6 +58,7 @@
             rel="noopener noreferrer">{{ end -}}
             <img loading="{{$loading}}" src="{{ (.Params.cover.image) | absURL }}" alt="{{ $alt }}">
     {{- end }}
+    </picture>
     {{- if $addLink }}</a>{{ end -}}
     {{/*  Display Caption  */}}
     {{- if $.IsSingle }}
