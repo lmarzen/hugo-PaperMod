@@ -48,7 +48,7 @@
         {{- end -}}" sizes="{{ $dataSizes }}" />
         {{- $actualImg := $cover.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
         <img loading="lazy" src="{{ $actualImg.RelPermalink }}" alt="{{ $alt }}"
-            width="{{ $cover.Width }}" height="{{ $cover.Height }}"
+            width="{{ $actualImg.Width }}" height="{{ $actualImg.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}{{/* Unprocessable image or responsive images disabled */}}
         <img loading="{{$loading}}" src="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" alt="{{ $alt }}">
