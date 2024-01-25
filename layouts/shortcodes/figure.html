@@ -11,6 +11,7 @@
 {{- $userQuality := (.Get "quality") }}
 {{- $quality := cond (ne $userQuality "") (printf "q%s" $userQuality) "" }}
 {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+{{- $loading := (.Get "loading") | default "lazy" }}
 {{- $src := .Page.Resources.GetMatch (.Get "src") -}}
 
 <figure{{ if or (.Get "class") (eq (.Get "align") "center") }} class="
@@ -41,14 +42,14 @@
             {{- end -}}
         {{- end -}}" sizes="{{ $dataSizes }}" />
         {{- $actualImg := $src.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
-        <img loading="lazy" src="{{ $actualImg.RelPermalink }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+        <img loading=$loading src="{{ $actualImg.RelPermalink }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
             {{- if or (.Get "alt") (.Get "caption") }}
             alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
             {{- end -}}
             width="{{ $src.Width }}" height="{{ $src.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}
-        <img loading="lazy" src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+        <img loading=$loading src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
              {{- if or (.Get "alt") (.Get "caption") }}
              alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
              {{- end -}}
