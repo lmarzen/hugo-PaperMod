@@ -1,7 +1,7 @@
 {{- with .cxt}} {{/* Apply proper context from dict */}}
 {{- if (and .Params.cover.image (not $.isHidden)) }}
 
-{{- $respSizes := (.Params.responsiveImages.setSizes | default site.Params.responsiveImages.setSizes) | default (slice "360" "540" "720" "1080" "1440") -}}
+{{- $respSizes := slice "360" "540" "720" "1080" "1440" -}}
 {{- $dataSizes := "(min-width: 768px) 720px, 100vw" -}}
 {{- /* ^^ applicable only to webp: https://gohugo.io/content-management/image-processing/#hint */ -}}
 {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "tiff" "bmp" "gif") -}}
