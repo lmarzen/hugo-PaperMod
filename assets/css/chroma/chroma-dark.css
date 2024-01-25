@@ -1,8 +1,8 @@
 /* Background */ .bg { color: #f8f8f2; background-color: #272822; }
 /* PreWrapper */ .dark .chroma { color: #f8f8f2; background-color: #272822; }
-/* Other */ .dark .chroma .x {  }
+/* Other */ /* .dark .chroma .x {  } */
 /* Error */ .dark .chroma .err { color: #960050; background-color: #1e0010 }
-/* CodeLine */ .dark .chroma .cl {  }
+/* CodeLine */ /* .dark .chroma .cl {  } */
 /* LineLink */ .dark .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
 /* LineTableTD */ .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
 /* LineTable */ .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
@@ -17,27 +17,27 @@
 /* KeywordPseudo */ .dark .chroma .kp { color: #66d9ef }
 /* KeywordReserved */ .dark .chroma .kr { color: #66d9ef }
 /* KeywordType */ .dark .chroma .kt { color: #66d9ef }
-/* Name */ .dark .chroma .n {  }
+/* Name */ /* .dark .chroma .n {  } */
 /* NameAttribute */ .dark .chroma .na { color: #a6e22e }
-/* NameBuiltin */ .dark .chroma .nb {  }
-/* NameBuiltinPseudo */ .dark .chroma .bp {  }
+/* NameBuiltin */ /* .dark .chroma .nb {  } */
+/* NameBuiltinPseudo */ /* .dark .chroma .bp {  } */
 /* NameClass */ .dark .chroma .nc { color: #a6e22e }
 /* NameConstant */ .dark .chroma .no { color: #66d9ef }
 /* NameDecorator */ .dark .chroma .nd { color: #a6e22e }
-/* NameEntity */ .dark .chroma .ni {  }
+/* NameEntity */ /* .dark .chroma .ni {  } */
 /* NameException */ .dark .chroma .ne { color: #a6e22e }
 /* NameFunction */ .dark .chroma .nf { color: #a6e22e }
-/* NameFunctionMagic */ .dark .chroma .fm {  }
-/* NameLabel */ .dark .chroma .nl {  }
-/* NameNamespace */ .dark .chroma .nn {  }
+/* NameFunctionMagic */ /* .dark .chroma .fm {  } */
+/* NameLabel */ /* .dark .chroma .nl {  } */
+/* NameNamespace */ /* .dark .chroma .nn {  } */
 /* NameOther */ .dark .chroma .nx { color: #a6e22e }
-/* NameProperty */ .dark .chroma .py {  }
+/* NameProperty */ /* .dark .chroma .py {  } */
 /* NameTag */ .dark .chroma .nt { color: #f92672 }
-/* NameVariable */ .dark .chroma .nv {  }
-/* NameVariableClass */ .dark .chroma .vc {  }
-/* NameVariableGlobal */ .dark .chroma .vg {  }
-/* NameVariableInstance */ .dark .chroma .vi {  }
-/* NameVariableMagic */ .dark .chroma .vm {  }
+/* NameVariable */ /* .dark .chroma .nv {  } */
+/* NameVariableClass */ /* .dark .chroma .vc {  } */
+/* NameVariableGlobal */ /* .dark .chroma .vg {  } */
+/* NameVariableInstance */ /* .dark .chroma .vi {  } */
+/* NameVariableMagic */ /* .dark .chroma .vm {  } */
 /* Literal */ .dark .chroma .l { color: #ae81ff }
 /* LiteralDate */ .dark .chroma .ld { color: #e6db74 }
 /* LiteralString */ .dark .chroma .s { color: #e6db74 }
@@ -63,7 +63,7 @@
 /* LiteralNumberOct */ .dark .chroma .mo { color: #ae81ff }
 /* Operator */ .dark .chroma .o { color: #f92672 }
 /* OperatorWord */ .dark .chroma .ow { color: #f92672 }
-/* Punctuation */ .dark .chroma .p {  }
+/* Punctuation */ /* .dark .chroma .p {  } */
 /* Comment */ .dark .chroma .c { color: #75715e }
 /* CommentHashbang */ .dark .chroma .ch { color: #75715e }
 /* CommentMultiline */ .dark .chroma .cm { color: #75715e }
@@ -71,16 +71,16 @@
 /* CommentSpecial */ .dark .chroma .cs { color: #75715e }
 /* CommentPreproc */ .dark .chroma .cp { color: #75715e }
 /* CommentPreprocFile */ .dark .chroma .cpf { color: #75715e }
-/* Generic */ .dark .chroma .g {  }
+/* Generic */ /* .dark .chroma .g {  } */
 /* GenericDeleted */ .dark .chroma .gd { color: #f92672 }
 /* GenericEmph */ .dark .chroma .ge { font-style: italic }
-/* GenericError */ .dark .chroma .gr {  }
-/* GenericHeading */ .dark .chroma .gh {  }
+/* GenericError */ /* .dark .chroma .gr {  } */
+/* GenericHeading */ /* .dark .chroma .gh {  } */
 /* GenericInserted */ .dark .chroma .gi { color: #a6e22e }
-/* GenericOutput */ .dark .chroma .go {  }
-/* GenericPrompt */ .dark .chroma .gp {  }
+/* GenericOutput */ /* .dark .chroma .go {  } */
+/* GenericPrompt */ /* .dark .chroma .gp {  } */
 /* GenericStrong */ .dark .chroma .gs { font-weight: bold }
 /* GenericSubheading */ .dark .chroma .gu { color: #75715e }
-/* GenericTraceback */ .dark .chroma .gt {  }
-/* GenericUnderline */ .dark .chroma .gl {  }
-/* TextWhitespace */ .dark .chroma .w {  }
+/* GenericTraceback */ /* .dark .chroma .gt {  } */
+/* GenericUnderline */ /* .dark .chroma .gl {  } */
+/* TextWhitespace */ /* .dark .chroma .w {  } */
