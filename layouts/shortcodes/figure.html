@@ -1,3 +1,18 @@
+{{- $respSizes := (.Params.responsiveImages.setSizes | default site.Params.responsiveImages.setSizes) | default (slice "360" "540" "720" "1080" "1440") -}}
+{{- $dataSizes := (.Get "sizes" | default (.Params.responsiveImages.sizes | default site.Params.responsiveImages.sizes)) | default "(min-width: 768px) 720px, 100vw" -}}
+{{- /* ^^ applicable only to webp: https://gohugo.io/content-management/image-processing/#hint */ -}}
+{{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "tiff" "bmp" "gif") -}}
+{{- if hugo.IsExtended -}}
+    {{- $processableFormats = $processableFormats | append "webp" -}}
+{{- end -}}
+{{- $responsiveImages := (.Get "responsive" | default (.Params.responsiveImages.enabled | default site.Params.responsiveImages.enabled)) | default false }}
+{{- $filter := (.Get "filter") -}}
+{{- $hint := (.Get "hint") }}
+{{- $userQuality := (.Get "quality") }}
+{{- $quality := cond (ne $userQuality "") (printf "q%s" $userQuality) "" }}
+{{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
+{{- $src := .Page.Resources.GetMatch (.Get "src") -}}
+
 <figure{{ if or (.Get "class") (eq (.Get "align") "center") }} class="
            {{- if eq (.Get "align") "center" }}align-center {{ end }}
            {{- with .Get "class" }}{{ . }}{{- end }}"
@@ -5,13 +20,43 @@
     {{- if .Get "link" -}}
         <a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
     {{- end }}
-    <img loading="lazy" src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
-         {{- if or (.Get "alt") (.Get "caption") }}
-         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
-         {{- end -}}
-         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
-         {{- with .Get "height" }} height="{{ . }}"{{ end -}}
-    /> <!-- Closing img tag -->
+    <picture>
+        {{- if (and (in $processableFormats $src.MediaType.SubType) ($responsiveImages) (eq $prod true)) }}
+        {{- if hugo.IsExtended -}}
+        <source type="image/webp" srcset="
+        {{- with $respSizes -}}
+            {{- range $i, $e := . -}}
+                {{- if ge $src.Width . -}}
+                    {{- if $i }}, {{ end -}}{{- ($src.Resize (print . "x webp " $hint " " $filter " " $quality) ).RelPermalink }} {{ . }}w
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}" sizes="{{ $dataSizes }}" />
+        {{- end -}}
+        <source type="image/jpeg" srcset="
+        {{- with $respSizes -}}
+            {{- range $i, $e := . -}}
+                {{- if ge $src.Width . -}}
+                    {{- if $i }}, {{ end -}}{{- ($src.Resize (print . "x jpg " $filter " " $quality) ).RelPermalink }} {{ . }}w
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}" sizes="{{ $dataSizes }}" />
+        {{- $actualImg := $src.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
+        <img loading="lazy" src="{{ $actualImg.RelPermalink }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+            {{- if or (.Get "alt") (.Get "caption") }}
+            alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
+            {{- end -}}
+            width="{{ $src.Width }}" height="{{ $src.Height }}"
+        /> <!-- Closing img tag -->
+        {{- else }}
+        <img loading="lazy" src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+             {{- if or (.Get "alt") (.Get "caption") }}
+             alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
+             {{- end -}}
+             {{- with .Get "width" }} width="{{ . }}"{{ end -}}
+             {{- with .Get "height" }} height="{{ . }}"{{ end -}}
+        /> <!-- Closing img tag -->
+        {{- end }}
+    </picture>
     {{- if .Get "link" }}</a>{{ end -}}
     {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
         <figcaption>
@@ -29,3 +74,4 @@
         </figcaption>
     {{- end }}
 </figure>
+
