@@ -1,5 +1,5 @@
-{{- $respSizes := (.Params.responsiveImages.setSizes | default site.Params.responsiveImages.setSizes) | default (slice "360" "540" "720" "1080" "1440") -}}
-{{- $dataSizes := (.Get "sizes" | default (.Params.responsiveImages.sizes | default site.Params.responsiveImages.sizes)) | default "(min-width: 768px) 720px, 100vw" -}}
+{{- $respSizes := slice "360" "540" "720" "1080" "1440" -}}
+{{- $dataSizes := "(min-width: 768px) 720px, 100vw" -}}
 {{- /* ^^ applicable only to webp: https://gohugo.io/content-management/image-processing/#hint */ -}}
 {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "tiff" "bmp" "gif") -}}
 {{- if hugo.IsExtended -}}
