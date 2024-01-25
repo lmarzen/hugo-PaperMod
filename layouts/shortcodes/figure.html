@@ -46,7 +46,7 @@
             {{- if or (.Get "alt") (.Get "caption") }}
             alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
             {{- end -}}
-            width="{{ $src.Width }}" height="{{ $src.Height }}"
+            width="{{ $actualImg.Width }}" height="{{ $actualImg.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}
         <img loading=$loading src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
