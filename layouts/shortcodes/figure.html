@@ -12,6 +12,8 @@
 {{- $quality := cond (ne $userQuality "") (printf "q%s" $userQuality) "" }}
 {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
 {{- $loading := (.Get "loading") | default "lazy" }}
+{{- $avifPostProcessing := (.Params.postProcessing.avif | default site.Params.postProcessing.avif) | default false }}
+{{- $avifQuality := (.Get "avifquality" | default (.Params.postProcessing.avifQuality | default site.Params.postProcessing.avifQuality)) | default "65" }}
 {{- $src := .Page.Resources.GetMatch (.Get "src") -}}
 
 <figure{{ if or (.Get "class") (eq (.Get "align") "center") }} class="
@@ -23,6 +25,17 @@
     {{- end }}
     <picture>
         {{- if (and (in $processableFormats $src.MediaType.SubType) ($responsiveImages) (eq $prod true)) }}
+        {{- if $avifPostProcessing -}}
+        <source type="image/avif" srcset="
+        {{- with $respSizes -}}
+            {{- range $i, $e := . -}}
+                {{- if ge $src.Width . -}}
+                    {{- /* I know this may seem weird, I can explain. This will generate a .png file but link it with the file extension renamed to .avif. A post processing script will use these .png's to generate corresponding .avif files. */ -}}
+                    {{- if $i }}, {{ end -}}{{- (replaceRE "_resize_" (print "_resize_q" $avifQuality "_") (replaceRE ".png$" ".avif " ($src.Resize (print . "x png " $filter " " $quality) ).RelPermalink)) -}} {{ . }}w
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}" sizes="{{ $dataSizes }}" />
+        {{- end -}}
         {{- if hugo.IsExtended -}}
         <source type="image/webp" srcset="
         {{- with $respSizes -}}
