@@ -13,7 +13,7 @@
 {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
 {{- $loading := (.Get "loading") | default "lazy" }}
 {{- $avifPostProcessing := (.Params.postProcessing.avif | default site.Params.postProcessing.avif) | default false }}
-{{- $avifQuality := (.Get "avifquality" | default (.Params.postProcessing.avifQuality | default site.Params.postProcessing.avifQuality)) | default "65" }}
+{{- $avifQuality := (.Get "avifQuality" | default (.Params.postProcessing.avifQuality | default site.Params.postProcessing.avifQuality)) | default "65" }}
 {{- $src := .Page.Resources.GetMatch (.Get "src") -}}
 
 <figure{{ if or (.Get "class") (eq (.Get "align") "center") }} class="
