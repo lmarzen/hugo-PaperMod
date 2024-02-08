@@ -4,8 +4,50 @@
 {{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default "January 2, 2006" site.Params.DateFormat)))) }}
 {{- end }}
 
+{{/* https://searchfox.org/mozilla-central/source/toolkit/components/reader/ReaderMode.sys.mjs */}}
+{{/* http://iovs.arvojournals.org/article.aspx?articleid=2166061 */}}
+{{/*  ["en", { cpm: 987, variance: 118 }],  */}}
+{{/*  ["ar", { cpm: 612, variance: 88 }],   */}}
+{{/*  ["de", { cpm: 920, variance: 86 }],   */}}
+{{/*  ["es", { cpm: 1025, variance: 127 }], */}}
+{{/*  ["fi", { cpm: 1078, variance: 121 }], */}}
+{{/*  ["fr", { cpm: 998, variance: 126 }],  */}}
+{{/*  ["he", { cpm: 833, variance: 130 }],  */}}
+{{/*  ["it", { cpm: 950, variance: 140 }],  */}}
+{{/*  ["jw", { cpm: 357, variance: 56 }],   */}}
+{{/*  ["nl", { cpm: 978, variance: 143 }],  */}}
+{{/*  ["pl", { cpm: 916, variance: 126 }],  */}}
+{{/*  ["pt", { cpm: 913, variance: 145 }],  */}}
+{{/*  ["ru", { cpm: 986, variance: 175 }],  */}}
+{{/*  ["sk", { cpm: 885, variance: 145 }],  */}}
+{{/*  ["sv", { cpm: 917, variance: 156 }],  */}}
+{{/*  ["tr", { cpm: 1054, variance: 156 }], */}}
+{{/*  ["zh", { cpm: 255, variance: 29 }],   */}}
 {{- if (.Param "ShowReadingTime") -}}
-{{- $scratch.Add "meta" (slice (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime))) }}
+
+{{ $readingSpeedCPM      := .Site.Params.reading_speed_cpm }}
+{{ $readingSpeedVariance := .Site.Params.reading_speed_variance }}
+{{ $avgWordLength        := .Site.Params.avg_word_length }}
+
+{{ $wordsPerMinute  := div $readingSpeedCPM $avgWordLength }}
+{{ $readingTime := int (math.Ceil (div (float .WordCount) $wordsPerMinute)) }}
+
+{{- if (.Param "ReadingTimeRange") -}}
+    {{ $charactersPerMinuteLow  := sub $readingSpeedCPM $readingSpeedVariance }}
+    {{ $charactersPerMinuteHigh := add $readingSpeedCPM $readingSpeedVariance }}
+    {{ $wordsPerMinuteLow  := div $charactersPerMinuteLow $avgWordLength }}
+    {{ $wordsPerMinuteHigh := div $charactersPerMinuteHigh $avgWordLength }}
+    {{ $readingTimeSlow := int (math.Ceil (div (float .WordCount) $wordsPerMinuteLow)) }}
+    {{ $readingTimeFast := int (math.Ceil (div (float .WordCount) $wordsPerMinuteHigh)) }}
+
+    {{ if eq $readingTimeFast $readingTimeSlow }}
+        {{- $scratch.Add "meta" (slice (i18n "read_time" $readingTimeFast | default (printf "%d min" $readingTimeFast))) }}
+    {{ else }}
+        {{- $scratch.Add "meta" (slice (printf "%d-%s" $readingTimeFast (i18n "read_time" $readingTimeSlow | default (printf "%d minutes" $readingTimeSlow)))) }}
+    {{ end }}
+{{ else }}
+    {{- $scratch.Add "meta" (slice (i18n "read_time" $readingTime | default (printf "%d min" $readingTime))) }}
+{{- end }}
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
