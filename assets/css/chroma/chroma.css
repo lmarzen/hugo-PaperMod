@@ -1,0 +1,9 @@
+/* Fix for syntax highlighting */
+.chroma * {
+    color: unset
+}
+
+.dark .chroma * {
+    color: unset
+}
+
