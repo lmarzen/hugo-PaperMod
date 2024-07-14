@@ -6,15 +6,17 @@
         {{- else }}
         <span>&copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">{{ site.Title }}</a></span>
         {{- end }}
-        {{- print " · "}}
     {{- end }}
 
-    {{- with site.Params.footer.text }}
-        {{ . | markdownify }}
+    {{- if site.Params.footer.text }}
         {{- print " · "}}
+        {{- with site.Params.footer.text }}
+          {{ . | markdownify }}
+        {{- end }}
     {{- end }}
 
-    {{- if not (.Param "hidePoweredByLine") }}
+    {{- if not site.Params.footer.hidePoweredByLine }}
+    {{- print " · "}}
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
