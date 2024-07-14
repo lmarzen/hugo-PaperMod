@@ -14,9 +14,9 @@
     --content: rgb(31, 31, 31);
     --code-fg: var(--content);
     --code-bg: rgb(242, 242, 242);
+    /* --code-bg: rgb(245, 245, 245); */
     --code-block-bg: var(--code-bg);
     /* --code-block-bg: rgb(28, 29, 33); */
-    /* --code-bg: rgb(245, 245, 245); */
     --border: rgb(238, 238, 238);
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -30,9 +30,9 @@
     --content: rgb(196, 196, 197);
     --code-fg: var(--content);
     --code-bg: rgb(40, 40, 45);
+    /* --code-bg: rgb(55, 56, 62); */
     --code-block-bg: var(--code-bg);
     /* --code-block-bg: rgb(46, 46, 51); */
-    /* --code-bg: rgb(55, 56, 62); */
     --border: rgb(51, 51, 51);
 }
 
