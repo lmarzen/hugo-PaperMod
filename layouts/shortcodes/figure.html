@@ -30,8 +30,8 @@
         {{- with $respSizes -}}
             {{- range $i, $e := . -}}
                 {{- if ge $src.Width . -}}
-                    {{- /* I know this may seem weird, I can explain. This will generate a .png file but link it with the file extension renamed to .avif. A post processing script will use these .png's to generate corresponding .avif files. */ -}}
-                    {{- if $i }}, {{ end -}}{{- (replaceRE "_resize_" (print "_resize_q" $avifQuality "_") (replaceRE ".png$" ".avif " ($src.Resize (print . "x png " $filter " " $quality) ).RelPermalink)) -}} {{ . }}w
+                    {{- /* A post processing script will use these .png's to generate corresponding .avif files. */ -}}
+                    {{- if $i }}, {{ end -}}{{- (replaceRE ".png$" ".avif " ($src.Resize (print . "x png " $filter " " 100) ).RelPermalink) -}} {{ . }}w
                 {{- end -}}
             {{- end -}}
         {{- end -}}" sizes="{{ $dataSizes }}" />
@@ -55,14 +55,14 @@
             {{- end -}}
         {{- end -}}" sizes="{{ $dataSizes }}" />
         {{- $actualImg := $src.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
-        <img loading=$loading src="{{ $actualImg.RelPermalink }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+        <img loading="{{ $loading }}" src="{{ $actualImg.RelPermalink }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
             {{- if or (.Get "alt") (.Get "caption") }}
             alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
             {{- end -}}
             width="{{ $actualImg.Width }}" height="{{ $actualImg.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}
-        <img loading=$loading src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+        <img loading="{{ $loading }}" src="{{ .Get "src" }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
              {{- if or (.Get "alt") (.Get "caption") }}
              alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
              {{- end -}}

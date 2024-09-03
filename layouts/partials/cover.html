@@ -35,8 +35,8 @@
         {{- with $respSizes -}}
             {{- range $i, $e := . -}}
                 {{- if ge $cover.Width . -}}
-                    {{- /* I know this may seem weird, I can explain. This will generate a .png file but link it with the file extension renamed to .avif. A post processing script will use these .png's to generate corresponding .avif files. */ -}}
-                    {{- if $i }}, {{ end -}}{{- (replaceRE "_resize_" (print "_resize_q" $avifQuality "_") (replaceRE ".png$" ".avif " ($cover.Resize (print . "x png " $filter " " $quality) ).RelPermalink)) -}} {{ . }}w
+                    {{- /* A post processing script will use these .png's to generate corresponding .avif files. */ -}}
+                    {{- if $i }}, {{ end -}}{{- (replaceRE ".png$" ".avif " ($cover.Resize (print . "x png " $filter " " 100) ).RelPermalink) -}} {{ . }}w
                 {{- end -}}
             {{- end -}}
         {{- end -}}" sizes="{{ $dataSizes }}" />
@@ -64,12 +64,12 @@
             width="{{ $actualImg.Width }}" height="{{ $actualImg.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}{{/* Unprocessable image or responsive images disabled */}}
-        <img loading="{{$loading}}" src="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" alt="{{ $alt }}">
+        <img loading="{{ $loading }}" src="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" alt="{{ $alt }}">
         {{- end }}
     {{- else }}{{/* For absolute urls and external links, no img processing here */}}
         {{- if $addLink }}<a href="{{ (.Params.cover.image) | absURL }}" target="_blank"
             rel="noopener noreferrer">{{ end -}}
-            <img loading="{{$loading}}" src="{{ (.Params.cover.image) | absURL }}" alt="{{ $alt }}">
+            <img loading="{{ $loading }}" src="{{ (.Params.cover.image) | absURL }}" alt="{{ $alt }}">
     {{- end }}
     </picture>
     {{- if $addLink }}</a>{{ end -}}
