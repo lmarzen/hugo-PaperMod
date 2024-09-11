@@ -8,6 +8,10 @@
 }
 
 /* Fix for line numbers and line highlight */
+.chroma {
+    background-color: unset !important;
+}
+
 .chroma .hl {
     display: flex;
 }
