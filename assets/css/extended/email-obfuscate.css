@@ -1,0 +1,12 @@
+span.eobf.hidden {
+    display: none;
+}
+
+span.eobf b {
+    font-weight: normal;
+}
+
+span.eobf b:nth-child(2),
+span.eobf b:nth-child(3) {
+    display: none;
+}
