@@ -8,7 +8,7 @@
 {{- if hugo.IsExtended -}}
     {{- $processableFormats = $processableFormats | append "webp" -}}
 {{- end -}}
-{{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default false }}
+{{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default true }}
 {{- $filter := (.Params.cover.resampleFilter | default site.Params.cover.resampleFilter) }}
 {{- $hint := (.Params.cover.hint | default site.Params.cover.hint) }}
 {{- $userQuality := (.Params.cover.quality | default site.Params.cover.quality) }}
@@ -21,13 +21,23 @@
 {{- $loading := cond $.IsSingle "eager" "lazy" }}
 <figure class="entry-cover">
     {{- $addLink := (and site.Params.cover.linkFullImages $.IsSingle) }}
-    {{- $pageBundleCover     := (.Resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
+    {{- $pageBundleCover := (.Resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
     {{- $globalResourcesCover := (resources.ByType "image").GetMatch (printf "*%s*" (.Params.cover.image)) }}
     {{- $cover := (or $pageBundleCover $globalResourcesCover)}}
-    {{- if $cover -}}{{/* i.e it is present in page bundle */}}
-    {{- if $addLink }}<a href="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" target="_blank"
-        rel="noopener noreferrer">
-    {{ end -}}
+    {{- /* We are not using the .Param.cover.relative to decide the location of image */}}
+    {{- /* If we have the image in pageBundle or globalResources we can process the image */}}
+
+    {{- $imgdl := (.Params.cover.image) | absURL }}
+    {{- if $cover -}}
+        {{- $imgdl = $cover.Permalink }}
+    {{- end -}}
+
+    {{- if $addLink }}
+        <a href="{{ $imgdl }}" target="_blank" rel="noopener noreferrer">
+    {{- end }}
+
+    {{- if $cover -}}
+    {{/* i.e it is present in page bundle */}}
     <picture>
         {{- if (and (in $processableFormats $cover.MediaType.SubType) ($responsiveImages) (eq $prod true)) }}
         {{- if $avifPostProcessing -}}
@@ -60,22 +70,28 @@
             {{- end -}}
         {{- end -}}" sizes="{{ $dataSizes }}" />
         {{- $actualImg := $cover.Resize (printf "%s%s%s%s" "720x jpg " $filter " " $quality) -}}
-        <img loading="lazy" src="{{ $actualImg.RelPermalink }}" alt="{{ $alt }}"
+        <img loading="{{ $loading }}" src="{{ $actualImg.RelPermalink }}" alt="{{ $alt }}"
             width="{{ $actualImg.Width }}" height="{{ $actualImg.Height }}"
         /> <!-- Closing img tag -->
         {{- else }}{{/* Unprocessable image or responsive images disabled */}}
         <img loading="{{ $loading }}" src="{{ (path.Join .RelPermalink .Params.cover.image) | absURL }}" alt="{{ $alt }}">
         {{- end }}
     {{- else }}{{/* For absolute urls and external links, no img processing here */}}
-        {{- if $addLink }}<a href="{{ (.Params.cover.image) | absURL }}" target="_blank"
+        {{- if $addLink }}<a href="{{ $imgdl }}" target="_blank"
             rel="noopener noreferrer">{{ end -}}
-            <img loading="{{ $loading }}" src="{{ (.Params.cover.image) | absURL }}" alt="{{ $alt }}">
+            <img loading="{{ $loading }}" src="{{ $imgdl }}" alt="{{ $alt }}">
     {{- end }}
     </picture>
-    {{- if $addLink }}</a>{{ end -}}
+
+    {{- if $addLink }}
+        </a>
+    {{- end -}}
     {{/*  Display Caption  */}}
+
     {{- if $.IsSingle }}
-        {{ with .Params.cover.caption }}<p>{{ . | markdownify }}</p>{{- end }}
+        {{ with .Params.cover.caption -}}
+            <figcaption>{{ . | markdownify }}</figcaption>
+        {{- end }}
     {{- end }}
 </figure>
 {{- end }}{{/* End image */}}
