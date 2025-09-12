@@ -19,6 +19,7 @@
     font-size: 14px;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .post-meta .i18n_list li {
@@ -149,8 +150,8 @@
     padding-inline-start: 10px;
 }
 
-.post-content dd ~ dd,
-.post-content dt ~ dt {
+.post-content dd~dd,
+.post-content dt~dt {
     margin-top: 10px;
 }
 
@@ -185,7 +186,7 @@
     direction: ltr;
 }
 
-.post-content li > .highlight {
+.post-content li>.highlight {
     margin-inline-end: 0;
 }
 
@@ -264,12 +265,12 @@
     text-align: center;
 }
 
-.post-single figure.entry-cover > figcaption {
+.post-single figure.entry-cover>figcaption {
     margin: 16px 0 var(--content-gap);
 }
 
-.post-single figure.entry-cover > figcaption,
-.post-content figure > figcaption > p {
+.post-single figure.entry-cover>figcaption,
+.post-content figure>figcaption>p {
     color: var(--secondary);
     font-size: 14px;
     font-weight: normal;
