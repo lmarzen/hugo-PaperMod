@@ -1,0 +1,13 @@
+{{- $file := or .Attributes.file "" }}
+{{- $ext := strings.TrimPrefix "." (path.Ext $file) }}
+{{- $lang := or .Type $ext "text" }}
+
+<figure class="highlight">
+  {{- with $file }}
+    <figcaption>
+      <code>{{ . }}</code>
+    </figcaption>
+  {{- end }}
+
+  {{- transform.Highlight (strings.TrimSpace .Inner) $lang .Options }}
+</figure>
