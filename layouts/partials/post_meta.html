@@ -41,12 +41,12 @@
     {{ $readingTimeFast := int (math.Ceil (div (float .WordCount) $wordsPerMinuteHigh)) }}
 
     {{ if eq $readingTimeFast $readingTimeSlow }}
-        {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTimeFast | default (printf "%d min" .ReadingTimeFast)))) }}
+        {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" $readingTimeFast | default (printf "%d min" $readingTimeFast)))) }}
     {{ else }}
         {{- $scratch.Add "meta" (slice (printf "<span>%d-%s</span>" $readingTimeFast (i18n "read_time" $readingTimeSlow | default (printf "%d min" $readingTimeSlow)))) }}
     {{ end }}
 {{ else }}
-    {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
+    {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" $readingTime | default (printf "%d min" $readingTime)))) }}
 {{- end }}
 {{- end }}
 

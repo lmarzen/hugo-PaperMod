@@ -3,7 +3,7 @@
     color: unset
 }
 
-.dark .chroma * {
+[data-theme="dark"] .chroma * {
     color: unset
 }
 

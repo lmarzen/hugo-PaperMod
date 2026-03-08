@@ -89,7 +89,7 @@
     /* color: #7c5cff; /* Proton Light */
 }
 
-.dark .post-content a {
+[data-theme="dark"] .post-content a {
     text-decoration: none;
     /* color: #2f81f7; /* Github Dark */
     /* color: #58a6ff; /* old Github Dark*/
@@ -103,8 +103,6 @@
     text-decoration: underline;
 }
 
-.post-content a,
-.post-meta .i18n_list li a,
 .toc a:hover {
     box-shadow: 0 1px 0;
     box-decoration-break: clone;
