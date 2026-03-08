@@ -1,7 +1,7 @@
 {{- $scratch := newScratch }}
 
 {{- if not .Date.IsZero -}}
-{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default "January 2, 2006" site.Params.DateFormat)))) }}
+{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default ":date_long" site.Params.DateFormat)))) }}
 {{- end }}
 
 {{/* https://searchfox.org/mozilla-central/source/toolkit/components/reader/ReaderMode.sys.mjs */}}
@@ -41,22 +41,22 @@
     {{ $readingTimeFast := int (math.Ceil (div (float .WordCount) $wordsPerMinuteHigh)) }}
 
     {{ if eq $readingTimeFast $readingTimeSlow }}
-        {{- $scratch.Add "meta" (slice (i18n "read_time" $readingTimeFast | default (printf "%d min" $readingTimeFast))) }}
+        {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTimeFast | default (printf "%d min" .ReadingTimeFast)))) }}
     {{ else }}
-        {{- $scratch.Add "meta" (slice (printf "%d-%s" $readingTimeFast (i18n "read_time" $readingTimeSlow | default (printf "%d minutes" $readingTimeSlow)))) }}
+        {{- $scratch.Add "meta" (slice (printf "<span>%d-%s</span>" $readingTimeFast (i18n "read_time" $readingTimeSlow | default (printf "%d min" $readingTimeSlow)))) }}
     {{ end }}
 {{ else }}
-    {{- $scratch.Add "meta" (slice (i18n "read_time" $readingTime | default (printf "%d min" $readingTime))) }}
+    {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "read_time" .ReadingTime | default (printf "%d min" .ReadingTime)))) }}
 {{- end }}
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
-{{- $scratch.Add "meta" (slice (i18n "words" .WordCount | default (printf "%d words" .WordCount))) }}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "words" .WordCount | default (printf "%d words" .WordCount)))) }}
 {{- end }}
 
 {{- if not (.Param "hideAuthor") -}}
 {{- with (partial "author.html" .) }}
-{{- $scratch.Add "meta" (slice .) }}
+{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
 {{- end }}
 {{- end }}
 
