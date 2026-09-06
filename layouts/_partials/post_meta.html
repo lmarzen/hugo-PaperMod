@@ -1,7 +1,7 @@
 {{- $scratch := newScratch }}
 
 {{- if not .Date.IsZero -}}
-{{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default ":date_long" site.Params.DateFormat)))) }}
+    {{- $scratch.Add "meta" (slice (printf "<span title='%s'>%s</span>" (.Date) (.Date | time.Format (default ":date_long" site.Params.DateFormat)))) }}
 {{- end }}
 
 {{/* https://searchfox.org/mozilla-central/source/toolkit/components/reader/ReaderMode.sys.mjs */}}
@@ -51,15 +51,17 @@
 {{- end }}
 
 {{- if (.Param "ShowWordCount") -}}
-{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "words" .WordCount | default (printf "%d words" .WordCount)))) }}
+    {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" (i18n "words" .WordCount | default (printf "%d words" .WordCount)))) }}
 {{- end }}
 
 {{- if not (.Param "hideAuthor") -}}
-{{- with (partial "author.html" .) }}
-{{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
-{{- end }}
+    {{- with (partial "author.html" .) }}
+        {{- $scratch.Add "meta" (slice (printf "<span>%s</span>" .)) }}
+    {{- end }}
 {{- end }}
 
+{{/* Combine all meta information into a single string with separators and render it as HTML.*/}}
+
 {{- with ($scratch.Get "meta") }}
-{{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
+    {{- delimit . "&nbsp;·&nbsp;" | safeHTML -}}
 {{- end -}}
